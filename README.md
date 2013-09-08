@@ -1,5 +1,7 @@
 # mIndent
 
+[![Build Status](https://secure.travis-ci.org/sabel83/mindent.png?branch=master "Build Status")](http://travis-ci.org/sabel83/mindent)
+
 mIndent is a header-only library for angle-bracket expression indentation. It is
 based on the Boost.Wave library.
 
