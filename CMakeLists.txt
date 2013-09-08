@@ -35,6 +35,15 @@ else()
   subdirs(test)
 endif()
 
+# Warning level
+if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -pedantic")
+  message("Setting warning level for GCC")
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -pedantic")
+  message("Setting warning level for Clang")
+endif()
+
 # Installation
 macro(install_with_dir PREFIX_TO_CUT)
  
