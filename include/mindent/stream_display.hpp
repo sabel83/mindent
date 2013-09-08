@@ -10,9 +10,18 @@
 
 namespace mindent
 {
+  /**
+   * @brief Functor to display tokens in an output stream.
+   */
   class stream_display
   {
   public:
+    /**
+     * @brief Initialise the functor with an std::ostream to display the tokens
+     *        on.
+     *
+     * @param o_ The stream to display the tokens on.
+     */
     explicit stream_display(std::ostream& o_) :
       _o(&o_)
     {}

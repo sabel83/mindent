@@ -1,0 +1,30 @@
+/**
+
+@mainpage mIndent
+
+@section introduction Introduction
+
+mIndent is a header-only library for angle-bracket expression indentation. It is
+based on the Boost.Wave library.
+
+@section getting Getting the library
+
+You can download the library from
+<a href="https://github.com/sabel83/mindent">Github</a>.
+
+@section using Using the library
+
+It contains classes for representing angle-bracket expressions:
+mindent::syntax_node and mindent::syntax_node_list.
+
+You can use the <a href="http://boost.org/libs/wave">Boost.Wave library</a> to
+tokenise an angle-bracket expression and the mindent::parse_syntax_node_list
+function to turn a sequence of tokens into a mindent:syntax_node_list object.
+
+You can indent an angle-bracket expression using the mindent::display function.
+
+@section license License
+
+mIndent is published under the
+<a href="http://www.boost.org/LICENSE_1_0.txt">Boost Software License</a>
+*/

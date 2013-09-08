@@ -6,6 +6,11 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+/**
+ * @file parser.hpp
+ * @brief Interface for parsing angle-bracket expressions.
+ */
+
 #include <mindent/impl/parser.hpp>
 #include <mindent/syntax_node_list.hpp>
 
@@ -18,6 +23,15 @@
 
 namespace mindent
 {
+  /**
+   * @brief Build a syntax tree from a Boost.Wave token sequence
+   *
+   * This function takes only the beginning of a token sequnce and assumes that
+   * the entire sequence should be parsed.
+   *
+   * @tparam TokenType the Boost.Wave type used for representeing tokens.
+   * @param begin_ the beginning of the Boost.Wave token sequence to parse.
+   */
   template <class TokenType>
   syntax_node_list<TokenType>
   parse_syntax_node_list(boost::wave::cpplexer::lex_iterator<TokenType> begin_)

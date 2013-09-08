@@ -13,6 +13,12 @@
 
 namespace mindent
 {
+  /**
+   * @brief Functor to display tokens in a string.
+   *
+   * This functor collects the tokens in memory and can provide a string
+   * containing all tokens.
+   */
   class string_display
   {
   public:
@@ -22,6 +28,7 @@ namespace mindent
       store(t_.get_value());
     }
 
+    /// Construct the string of all tokens displayed using this functor.
     std::string str() const
     {
       return boost::algorithm::join(_s, "");
