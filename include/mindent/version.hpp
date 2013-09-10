@@ -11,14 +11,14 @@
  * @brief The version of the mIndent library
  */
 
-#ifdef MINDENT_MAJOR
-  #error MINDENT_MAJOR is already defined
+#ifdef MINDENT_MAJOR_VERSION
+  #error MINDENT_MAJOR_VERSION is already defined
 #endif
-#ifdef MINDENT_MINOR
-  #error MINDENT_MINOR is already defined
+#ifdef MINDENT_MINOR_VERSION
+  #error MINDENT_MINOR_VERSION is already defined
 #endif
-#ifdef MINDENT_PATCH
-  #error MINDENT_PATCH is already defined
+#ifdef MINDENT_PATCH_VERSION
+  #error MINDENT_PATCH_VERSION is already defined
 #endif
 
 /// The major version of the library
