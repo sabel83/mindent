@@ -9,6 +9,8 @@
 #include <mindent/syntax_node_list.hpp>
 #include <mindent/string_display.hpp>
 
+#include "indented_tokens.hpp"
+
 #include <boost/wave.hpp>
 #include <boost/wave/cpplexer/cpp_lex_token.hpp>
 #include <boost/wave/cpplexer/cpp_lex_iterator.hpp>
@@ -17,12 +19,14 @@
 
 namespace
 {
+  typedef boost::wave::cpplexer::lex_token<> token_type;
+  typedef token_type::position_type position_type;
+
   std::string indent(const std::string& s_)
   {
     const int width = 10;
     const int indent_step = 2;
 
-    typedef boost::wave::cpplexer::lex_token<> token_type;
     typedef boost::wave::cpplexer::lex_iterator<token_type> iterator_type;
 
     return
@@ -34,6 +38,7 @@ namespace
             token_type::position_type("<input>"),
             boost::wave::language_support(
               boost::wave::support_cpp
+              | boost::wave::support_cpp0x
               | boost::wave::support_option_long_long
             )
           )
@@ -120,5 +125,62 @@ BOOST_AUTO_TEST_CASE(test_indenter)
   );
 
   BOOST_CHECK_EQUAL("f<13>", indent("f<13>"));
+}
+
+BOOST_AUTO_TEST_CASE(test_comments)
+{
+  BOOST_CHECK_EQUAL(
+    "/* hello *\n"
+    "/",
+    indent("/* hello */")
+  );
+
+  BOOST_CHECK_EQUAL(
+    "f<\n"
+    "  /* hello\n"
+    "   */ int\n"
+    ">",
+    indent("f</* hello */ int>")
+  );
+
+  BOOST_CHECK_EQUAL("// hello\n", indent("// hello\n"));
+  BOOST_CHECK_EQUAL(
+    "f<\n"
+    "  // hello\n"
+    "    int\n"
+    ">",
+    indent(
+      "f<// hello \n"
+      "int>"
+    )
+  );
+
+  BOOST_CHECK_EQUAL(
+    "/* hello\n"
+    " * world\n"
+    " */",
+    indent(
+      "/* hello\n"
+      " * world\n"
+      " */"
+    )
+  );
+
+  BOOST_CHECK_EQUAL(
+    indented_tokens<token_type>(
+      token_type(
+        boost::wave::T_CCOMMENT,
+        "/* hello\n"
+        " * world\n"
+        " */",
+        position_type("<input>", 1, 1)
+      )
+    ),
+    indented_tokens<token_type>(
+      "/* hello\n"
+      " * world\n"
+      " */"
+    )
+  );
 }
 
