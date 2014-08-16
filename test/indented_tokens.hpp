@@ -8,6 +8,7 @@
 
 #include <mindent/display.hpp>
 #include <mindent/parser.hpp>
+#include <mindent/wave_lexer.hpp>
 
 #include <boost/preprocessor/cat.hpp>
 #include <boost/preprocessor/repetition/repeat.hpp>
@@ -31,21 +32,20 @@ public:
     const int width = 10;
     const int indent_step = 2;
 
-    typedef boost::wave::cpplexer::lex_iterator<TokenType> iterator_type;
+    mindent::wave_lexer<TokenType>
+      lexer(
+        s_.begin(),
+        s_.end(),
+        typename TokenType::position_type("<input>"),
+        boost::wave::language_support(
+          boost::wave::support_cpp
+          | boost::wave::support_cpp0x
+          | boost::wave::support_option_long_long
+        )
+      );
 
     mindent::display(
-      mindent::parse_syntax_node_list(
-        iterator_type(
-          s_.begin(),
-          s_.end(),
-          typename TokenType::position_type("<input>"),
-          boost::wave::language_support(
-            boost::wave::support_cpp 
-            | boost::wave::support_cpp0x
-            | boost::wave::support_option_long_long
-          )
-        )
-      ),
+      mindent::parse_syntax_node_list(lexer),
       width,
       indent_step,
       display(_container)

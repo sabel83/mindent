@@ -8,6 +8,7 @@
 #include <mindent/syntax_node.hpp>
 #include <mindent/syntax_node_list.hpp>
 #include <mindent/string_display.hpp>
+#include <mindent/wave_lexer.hpp>
 
 #include "indented_tokens.hpp"
 
@@ -27,22 +28,21 @@ namespace
     const int width = 10;
     const int indent_step = 2;
 
-    typedef boost::wave::cpplexer::lex_iterator<token_type> iterator_type;
+    mindent::wave_lexer<token_type>
+      lexer(
+        s_.begin(),
+        s_.end(),
+        token_type::position_type("<input>"),
+        boost::wave::language_support(
+          boost::wave::support_cpp
+          | boost::wave::support_cpp0x
+          | boost::wave::support_option_long_long
+        )
+      );
 
     return
       mindent::display(
-        mindent::parse_syntax_node_list(
-          iterator_type(
-            s_.begin(),
-            s_.end(),
-            token_type::position_type("<input>"),
-            boost::wave::language_support(
-              boost::wave::support_cpp
-              | boost::wave::support_cpp0x
-              | boost::wave::support_option_long_long
-            )
-          )
-        ),
+        mindent::parse_syntax_node_list(lexer),
         width,
         indent_step,
         mindent::string_display()
