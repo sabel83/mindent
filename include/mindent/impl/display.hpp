@@ -11,7 +11,6 @@
 #include <mindent/syntax_node_list.hpp>
 #include <mindent/token_traits.hpp>
 
-#include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
 #include <algorithm>
@@ -88,6 +87,11 @@ namespace mindent
       current_line_left_ = width_ - indented_;
     }
 
+    inline bool is_newline_char(char c_)
+    {
+      return c_ == '\n' || c_ == '\r';
+    }
+
     template <class TokenType, class DisplayF>
     DisplayF display_name(
       const syntax_node<TokenType>& n_,
@@ -97,7 +101,6 @@ namespace mindent
       DisplayF show_
     )
     {
-      using boost::algorithm::is_any_of;
       using boost::algorithm::trim_right_copy_if;
 
       typedef typename token_traits<TokenType>::string_type string_t;
@@ -133,7 +136,7 @@ namespace mindent
         const string_t
           value = trim_right_copy_if(
             token_traits<TokenType>::value(*i),
-            is_any_of("\n\r")
+            is_newline_char
           );
 
         string_t buff;
@@ -147,9 +150,9 @@ namespace mindent
             std::find_if(
               j,
               j + std::min<diff_t>(je - j, current_line_left),
-              is_any_of("\n\r")
+              is_newline_char
             );
-          const bool j2_is_newline = (j2 != je && is_any_of("\n\r")(*j2));
+          const bool j2_is_newline = (j2 != je && is_newline_char(*j2));
           if (token_traits<TokenType>::is_c_comment(*i))
           {
             buff += string_t(j, j2);
